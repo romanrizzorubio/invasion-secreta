@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy root package files
+COPY package*.json ./
+COPY packages/front/package*.json ./packages/front/
+
+# Install all dependencies (including dev)
+RUN npm install
+
+# Copy frontend source
+COPY packages/front ./packages/front
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start", "--workspace=packages/front"]

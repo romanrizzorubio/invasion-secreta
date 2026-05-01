@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: packages/back/Dockerfile.dev
+    container_name: invasion-backend-dev
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+    volumes:
+      - ./packages/back:/app/packages/back
+      - /app/node_modules
+      - /app/packages/back/node_modules
+    restart: unless-stopped
+    networks:
+      - invasion-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/front/Dockerfile.dev
+    container_name: invasion-frontend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:4000
+    volumes:
+      - ./packages/front:/app/packages/front
+      - /app/node_modules
+      - /app/packages/front/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - invasion-network
+
+networks:
+  invasion-network:
+    driver: bridge

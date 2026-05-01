@@ -1,0 +1,46 @@
+{
+  "name": "invasion-secreta",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "start": "npm run start --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "dev:back": "npm run dev --workspace=packages/back",
+    "dev:front": "npm run start --workspace=packages/front",
+    "build:back": "npm run build --workspace=packages/back",
+    "build:front": "npm run build --workspace=packages/front",
+    "start:back": "npm run start --workspace=packages/back",
+    "start:front": "npm run start --workspace=packages/front",
+    "test:back": "npm run test --workspace=packages/back",
+    "test:front": "npm run test --workspace=packages/front",
+    "lint:back": "npm run lint --workspace=packages/back",
+    "lint:front": "npm run lint --workspace=packages/front",
+    "typecheck:back": "npm run typecheck --workspace=packages/back",
+    "typecheck:front": "npm run typecheck --workspace=packages/front",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker:dev": "docker-compose up --build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.4.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.2"
+  }
+}

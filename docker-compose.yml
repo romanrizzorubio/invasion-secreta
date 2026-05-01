@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: packages/back/Dockerfile
+    container_name: invasion-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+    restart: unless-stopped
+    networks:
+      - invasion-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/front/Dockerfile
+    container_name: invasion-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - invasion-network
+
+networks:
+  invasion-network:
+    driver: bridge
