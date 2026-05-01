@@ -260,6 +260,21 @@ npm run test:e2e:debug  # Modo debug paso a paso
 
 **Videos:** Los videos de las ejecuciones se guardan en `test-results/` y se graban automáticamente cuando un test falla. Usa `npm run test:e2e:video` para grabar todas las ejecuciones.
 
+#### Generando nuevos tests E2E desde prompts
+
+El proyecto incluye un sistema de prompts en la carpeta `prompts/` para facilitar la generación de nuevos tests E2E:
+
+1. **Crear un prompt:** Duplica el archivo `prompts/example-test.md` y completa los pasos del test que quieres implementar
+2. **Estructura del prompt:** Organiza las acciones por pestañas del navegador (Jugador 1, Jugador 2, etc.) en cada paso
+3. **Generar el test:** Proporciona el archivo markdown completado a Claude Code para que genere automáticamente el test de Playwright correspondiente
+
+El formato de prompt está diseñado para tests multi-pestaña, permitiendo especificar:
+- Precondiciones y configuración inicial
+- Acciones simultáneas o secuenciales en diferentes pestañas
+- Sincronización entre pestañas mediante WebSockets
+- Verificaciones de estado en cada pestaña
+- Casos edge y escenarios de error
+
 ## Despliegue
 
 ### Con Docker (recomendado)
