@@ -14,7 +14,8 @@ test.describe('Game Initialization E2E', () => {
     expect(response.ok()).toBeTruthy();
     const data = await response.json();
     expect(data).toHaveProperty('tables');
-    expect(data).toHaveProperty('game');
+    expect(data).toHaveProperty('phase');
+    expect(data).toHaveProperty('end');
   });
 
   test('should initialize game with players and end value', async ({ request }) => {
@@ -27,8 +28,8 @@ test.describe('Game Initialization E2E', () => {
     expect(response.ok()).toBeTruthy();
     const data = await response.json();
     expect(data).toHaveProperty('tables');
-    expect(data).toHaveProperty('game');
-    expect(data.game).toHaveProperty('end', 10);
+    expect(data).toHaveProperty('phase');
+    expect(data).toHaveProperty('end', 10);
   });
 
   test('should get heroes list', async ({ request }) => {
@@ -50,7 +51,7 @@ test.describe('Game Initialization E2E', () => {
     expect(response.ok()).toBeTruthy();
     const data = await response.json();
     expect(data).toHaveProperty('tables');
-    expect(data).toHaveProperty('game');
+    expect(data).toHaveProperty('phase');
   });
 
   test('should load frontend application', async ({ page }) => {

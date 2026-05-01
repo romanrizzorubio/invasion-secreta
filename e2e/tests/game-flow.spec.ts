@@ -16,7 +16,7 @@ test.describe('Complete Game Flow E2E', () => {
     });
     expect(initResponse.ok()).toBeTruthy();
     const initData = await initResponse.json();
-    expect(initData.game.end).toBe(10);
+    expect(initData.end).toBe(10);
 
     // Step 2: Get heroes
     const heroesResponse = await request.get('http://localhost:4000/heroes');
@@ -27,7 +27,7 @@ test.describe('Complete Game Flow E2E', () => {
     // Step 3: Initialize a table
     const tableResponse = await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
@@ -60,17 +60,20 @@ test.describe('Complete Game Flow E2E', () => {
     // Initialize table
     const initTableResponse = await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
     });
     expect(initTableResponse.ok()).toBeTruthy();
 
+    // Start tables
+    await request.post('http://localhost:4000/start-tables');
+
     // Update super life
     const superLifeResponse = await request.post('http://localhost:4000/super-life', {
       data: {
-        table: 0,
+        table: 1,
         value: 5
       }
     });
@@ -79,7 +82,7 @@ test.describe('Complete Game Flow E2E', () => {
     // Update super plan
     const superPlanResponse = await request.post('http://localhost:4000/super-plan', {
       data: {
-        table: 0,
+        table: 1,
         value: 3
       }
     });
@@ -88,7 +91,7 @@ test.describe('Complete Game Flow E2E', () => {
     // Update ship
     const shipResponse = await request.post('http://localhost:4000/ship', {
       data: {
-        table: 0
+        table: 1
       }
     });
     expect(shipResponse.ok()).toBeTruthy();
@@ -96,7 +99,7 @@ test.describe('Complete Game Flow E2E', () => {
     // Update enemy
     const enemyResponse = await request.post('http://localhost:4000/enemy', {
       data: {
-        table: 0,
+        table: 1,
         value: 2
       }
     });
@@ -105,7 +108,11 @@ test.describe('Complete Game Flow E2E', () => {
     // Get updated data
     const dataResponse = await request.get('http://localhost:4000/data');
     const gameData = await dataResponse.json();
-    expect(gameData.tables).toHaveLength(4);
+    expect(gameData.tables).toHaveLength(1);
+    expect(gameData.tables[0]).toHaveProperty('superDamage', 5);
+    expect(gameData.tables[0]).toHaveProperty('superThreat', 3);
+    expect(gameData.tables[0]).toHaveProperty('ship', 1);
+    expect(gameData.tables[0]).toHaveProperty('enemy', 2);
   });
 
   test('should advance game phases', async ({ request }) => {
@@ -120,7 +127,7 @@ test.describe('Complete Game Flow E2E', () => {
     // Initialize table
     await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
@@ -136,7 +143,8 @@ test.describe('Complete Game Flow E2E', () => {
     // Verify game advanced
     const dataResponse = await request.get('http://localhost:4000/data');
     const gameData = await dataResponse.json();
-    expect(gameData).toHaveProperty('game');
+    expect(gameData).toHaveProperty('phase');
+    expect(gameData).toHaveProperty('tables');
   });
 
   test('should handle spider-woman updates', async ({ request }) => {
@@ -149,15 +157,18 @@ test.describe('Complete Game Flow E2E', () => {
 
     await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
     });
 
+    // Start tables
+    await request.post('http://localhost:4000/start-tables');
+
     const spiderResponse = await request.post('http://localhost:4000/spider-woman', {
       data: {
-        table: 0,
+        table: 1,
         value: 1
       }
     });
@@ -174,15 +185,18 @@ test.describe('Complete Game Flow E2E', () => {
 
     await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
     });
 
+    // Start tables
+    await request.post('http://localhost:4000/start-tables');
+
     const exposedResponse = await request.post('http://localhost:4000/exposed', {
       data: {
-        table: 0,
+        table: 1,
         value: 2
       }
     });
@@ -221,16 +235,19 @@ test.describe('Complete Game Flow E2E', () => {
 
     await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
     });
 
+    // Start tables
+    await request.post('http://localhost:4000/start-tables');
+
     // Complete Veranke
     const completeResponse = await request.post('http://localhost:4000/complete', {
       data: {
-        table: 0
+        table: 1
       }
     });
     expect(completeResponse.ok()).toBeTruthy();
@@ -250,16 +267,19 @@ test.describe('Complete Game Flow E2E', () => {
 
     await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
     });
 
+    // Start tables
+    await request.post('http://localhost:4000/start-tables');
+
     // Reset specific table
     const resetTableResponse = await request.post('http://localhost:4000/reset-table', {
       data: {
-        table: 0
+        table: 1
       }
     });
     expect(resetTableResponse.ok()).toBeTruthy();
@@ -276,7 +296,7 @@ test.describe('Complete Game Flow E2E', () => {
 
     await request.post('http://localhost:4000/init-table', {
       data: {
-        table: 0,
+        table: 1,
         players: heroes.slice(0, 4),
         expert: false
       }
@@ -291,11 +311,11 @@ test.describe('Complete Game Flow E2E', () => {
 
     // Make backend changes
     await request.post('http://localhost:4000/super-life', {
-      data: { table: 0, value: 5 }
+      data: { table: 1, value: 5 }
     });
 
     await request.post('http://localhost:4000/ship', {
-      data: { table: 0 }
+      data: { table: 1 }
     });
 
     // Wait for WebSocket updates

@@ -1,3 +1,4 @@
+.idea
 node_modules
 dist
 build
@@ -8,3 +9,15 @@ build
 .DS_Store
 coverage
 *.tsbuildinfo
+
+# Test reports
+playwright-report/
+test-results/
+.nyc_output/
+junit.xml
+coverage/
+
+# Build artifacts
+*.tgz
+*.zip
+*.tar.gz
