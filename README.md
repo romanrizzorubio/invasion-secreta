@@ -76,6 +76,9 @@ npm run test:integration
 # Ejecutar tests E2E (end-to-end) que prueban frontend y backend juntos
 npm run test:e2e
 
+# Ejecutar tests E2E grabando video de todas las ejecuciones
+npm run test:e2e:video
+
 # Ejecutar tests E2E con interfaz visual interactiva
 npm run test:e2e:ui
 
@@ -95,16 +98,18 @@ npm run test:front
 ### Linting y Formateo
 
 ```bash
-# Ejecutar lint en ambos proyectos
+# Ejecutar lint + verificación de formateo (Prettier) en ambos proyectos
 npm run lint
 
-# Ejecutar lint y auto-fix en ambos proyectos
+# Ejecutar lint con auto-fix + formateo automático (Prettier) en ambos proyectos
 npm run lint:fix
 
 # Lint individual
 npm run lint:back
 npm run lint:front
 ```
+
+**Nota de seguridad:** Este proyecto NO utiliza `eslint-config-prettier` ni `eslint-plugin-prettier` debido a que fueron comprometidos en un ataque de supply chain (CVE-2025-54313). En su lugar, ESLint y Prettier se ejecutan de forma independiente pero secuencial mediante los scripts de npm.
 
 ### TypeScript
 
@@ -115,6 +120,14 @@ npm run typecheck
 # Verificar tipos individual
 npm run typecheck:back
 npm run typecheck:front
+```
+
+### Limpieza
+
+```bash
+# Limpiar todos los archivos generados (node_modules, builds, informes, logs)
+# Deja el proyecto como recién clonado de git
+npm run clean
 ```
 
 ## Docker
@@ -238,11 +251,14 @@ Tests end-to-end que verifican el funcionamiento completo de la aplicación, pro
 
 **Comandos** (desde raíz):
 ```bash
-npm run test:e2e        # Ejecutar tests E2E
+npm run test:e2e        # Ejecutar tests E2E (graba video solo en fallos)
+npm run test:e2e:video  # Ejecutar tests E2E grabando video de todas las ejecuciones
 npm run test:e2e:ui     # Interfaz visual interactiva
 npm run test:e2e:headed # Con navegador visible
 npm run test:e2e:debug  # Modo debug paso a paso
 ```
+
+**Videos:** Los videos de las ejecuciones se guardan en `test-results/` y se graban automáticamente cuando un test falla. Usa `npm run test:e2e:video` para grabar todas las ejecuciones.
 
 ## Despliegue
 

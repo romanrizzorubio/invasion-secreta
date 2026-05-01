@@ -13,11 +13,12 @@
     "test:unit": "npm run test:unit --workspaces --if-present",
     "test:integration": "npm run test:integration --workspaces --if-present",
     "test:e2e": "playwright test --config=e2e/playwright.config.ts",
+    "test:e2e:video": "PLAYWRIGHT_VIDEO=on playwright test --config=e2e/playwright.config.ts",
     "test:e2e:ui": "playwright test --config=e2e/playwright.config.ts --ui",
     "test:e2e:headed": "playwright test --config=e2e/playwright.config.ts --headed",
     "test:e2e:debug": "playwright test --config=e2e/playwright.config.ts --debug",
-    "lint": "npm run lint --workspaces --if-present",
-    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present && prettier --check .",
+    "lint:fix": "npm run lint:fix --workspaces --if-present && prettier --write .",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev:back": "npm run dev --workspace=packages/back",
     "dev:front": "npm run start --workspace=packages/front",
@@ -34,7 +35,8 @@
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up",
     "docker:down": "docker-compose down",
-    "docker:dev": "docker-compose up --build"
+    "docker:dev": "docker-compose up --build",
+    "clean": "rm -rf node_modules package-lock.json packages/*/node_modules packages/*/package-lock.json packages/*/dist packages/*/build packages/*/coverage playwright-report test-results .nyc_output junit.xml *.tsbuildinfo packages/*/*.tsbuildinfo packages/*/*.log *.log"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -43,8 +45,6 @@
     "@typescript-eslint/eslint-plugin": "^8.57.2",
     "@typescript-eslint/parser": "^8.57.2",
     "eslint": "^10.1.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
     "playwright": "^1.59.1",
     "prettier": "^3.8.1",
