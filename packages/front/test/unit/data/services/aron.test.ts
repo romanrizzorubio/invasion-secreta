@@ -1,9 +1,7 @@
 import { aronService } from '../../../../src/data/services/aron';
 import { post } from '../../../../src/data/core/api';
-import { parseData } from '../../../../src/utils/parsers';
 
 jest.mock('../../../../src/data/core/api');
-jest.mock('../../../../src/utils/parsers');
 
 describe('aronService', () => {
   const mockDataService = {
@@ -21,27 +19,12 @@ describe('aronService', () => {
     aron: false,
   };
 
-  const mockParsedData = {
-    tables: [],
-    end: new Date('2024-01-01T00:00:00.000Z'),
-    phase: 'PLAYING' as const,
-    superLife: 100,
-    superPlan: 0,
-    spiderWoman: 100,
-    ship: 100,
-    enemy: 100,
-    exposed: 100,
-    uatu: false,
-    aron: false,
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should call post with correct endpoint and parameters', async () => {
     (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
 
     await aronService(true, 1);
 
@@ -53,7 +36,6 @@ describe('aronService', () => {
 
   it('should call post with next=false', async () => {
     (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
 
     await aronService(false, 2);
 
@@ -63,22 +45,14 @@ describe('aronService', () => {
     });
   });
 
-  it('should parse the response data with table parameter', async () => {
+  it('should parse and return the response data', async () => {
     (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
-
-    await aronService(true, 3);
-
-    expect(parseData).toHaveBeenCalledWith(mockDataService, 3);
-  });
-
-  it('should return parsed data', async () => {
-    (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
 
     const result = await aronService(true, 1);
 
-    expect(result).toEqual(mockParsedData);
+    expect(result.end).toBeInstanceOf(Date);
+    expect(result.phase).toBe('PLAYING');
+    expect(result.aron).toBe(false);
   });
 
   it('should handle errors', async () => {

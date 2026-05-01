@@ -1,21 +1,13 @@
 import { heroesService } from '../../../../src/data/services/heroes';
 import { get } from '../../../../src/data/core/api';
-import { parseOptions } from '../../../../src/utils/parsers';
 
 jest.mock('../../../../src/data/core/api');
-jest.mock('../../../../src/utils/parsers');
 
 describe('heroesService', () => {
-  const mockOptionService = [
-    { value: 'hero1', label: 'Hero 1' },
-    { value: 'hero2', label: 'Hero 2' },
-    { value: 'hero3', label: 'Hero 3' },
-  ];
-
-  const mockParsedOptions = [
-    { value: 'hero1', label: 'Hero 1' },
-    { value: 'hero2', label: 'Hero 2' },
-    { value: 'hero3', label: 'Hero 3' },
+  const mockHeroesFromApi = [
+    { id: 'hero1', name: 'Hero 1' },
+    { id: 'hero2', name: 'Hero 2' },
+    { id: 'hero3', name: 'Hero 3' },
   ];
 
   beforeEach(() => {
@@ -23,35 +15,27 @@ describe('heroesService', () => {
   });
 
   it('should call get with correct endpoint', async () => {
-    (get as jest.Mock).mockResolvedValueOnce(mockOptionService);
-    (parseOptions as jest.Mock).mockReturnValueOnce(mockParsedOptions);
+    (get as jest.Mock).mockResolvedValueOnce(mockHeroesFromApi);
 
     await heroesService();
 
     expect(get).toHaveBeenCalledWith('/heroes');
   });
 
-  it('should parse the response data', async () => {
-    (get as jest.Mock).mockResolvedValueOnce(mockOptionService);
-    (parseOptions as jest.Mock).mockReturnValueOnce(mockParsedOptions);
-
-    await heroesService();
-
-    expect(parseOptions).toHaveBeenCalledWith(mockOptionService);
-  });
-
-  it('should return parsed options', async () => {
-    (get as jest.Mock).mockResolvedValueOnce(mockOptionService);
-    (parseOptions as jest.Mock).mockReturnValueOnce(mockParsedOptions);
+  it('should parse and return options', async () => {
+    (get as jest.Mock).mockResolvedValueOnce(mockHeroesFromApi);
 
     const result = await heroesService();
 
-    expect(result).toEqual(mockParsedOptions);
+    expect(result).toEqual([
+      { value: 'hero1', label: 'Hero 1' },
+      { value: 'hero2', label: 'Hero 2' },
+      { value: 'hero3', label: 'Hero 3' },
+    ]);
   });
 
   it('should handle empty heroes list', async () => {
     (get as jest.Mock).mockResolvedValueOnce([]);
-    (parseOptions as jest.Mock).mockReturnValueOnce([]);
 
     const result = await heroesService();
 

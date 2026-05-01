@@ -1,7 +1,7 @@
 import type { Server } from "socket.io";
 import { getGameState } from "../store/gameStore";
 
-const SOCKET_EVENT = "game:update";
+export const SOCKET_EVENT = "game:update";
 
 let ioInstance: Server | null = null;
 

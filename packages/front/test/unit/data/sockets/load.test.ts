@@ -1,11 +1,9 @@
 import { loadSocket, UseLoadSocket } from '../../../../src/data/sockets/load';
 import { createSocketConnection } from '../../../../src/data/core/api';
-import { parseData } from '../../../../src/utils/parsers';
 import { MutableRefObject } from 'react';
 import { Socket } from 'socket.io-client';
 
 jest.mock('../../../../src/data/core/api');
-jest.mock('../../../../src/utils/parsers');
 
 describe('loadSocket', () => {
   let mockSocket: any;
@@ -27,10 +25,6 @@ describe('loadSocket', () => {
     handleError = jest.fn();
 
     (createSocketConnection as jest.Mock).mockReturnValue(mockSocket);
-    (parseData as jest.Mock).mockImplementation((data, table) => ({
-      ...data,
-      currentTable: table,
-    }));
 
     jest.clearAllMocks();
   });
@@ -146,18 +140,46 @@ describe('loadSocket', () => {
     )[1];
 
     const mockDataService = {
-      tables: [],
+      tables: [{
+      players: [],
+      expert: false,
+      saved: false,
+      completeVeranke: false,
+      spiderWoman: 0,
+      superDamage: 0,
+      superThreat: 0,
+      ship: 0,
+      enemy: 0,
+      exposed: 0,
+    }],
       end: '2024-01-01T00:00:00.000Z',
       phase: 'PLAYING',
+      superLifeMax: 10,
+      superPlanIni: 0,
+      superPlanMax: 10,
+      spiderWomanMax: 10,
+      shipMax: 15,
+      enemyInit: 10,
+      exposedMax: 10,
+      uatu: false,
+      aron: false,
     };
 
     gameUpdateHandler(mockDataService);
 
-    expect(parseData).toHaveBeenCalledWith(mockDataService, 2);
-    expect(handleData).toHaveBeenCalledWith({
-      ...mockDataService,
-      currentTable: 2,
-    });
+    expect(handleData).toHaveBeenCalledTimes(1);
+    const parsedData = handleData.mock.calls[0][0];
+
+    expect(parsedData.end).toBeInstanceOf(Date);
+    expect(parsedData.phase).toBe('PLAYING');
+    expect(parsedData.superLife).toBe(100);
+    expect(parsedData.superPlan).toBe(0);
+    expect(parsedData.spiderWomanTotal).toBe(100);
+    expect(parsedData.ship).toBe(100);
+    expect(parsedData.enemy).toBe(100);
+    expect(parsedData.exposed).toBe(0);
+    expect(parsedData.uatu).toBe(false);
+    expect(parsedData.aron).toBe(false);
   });
 
   it('should register disconnect event handler', () => {

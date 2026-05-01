@@ -61,8 +61,14 @@ npm run build:front
 ### Tests
 
 ```bash
-# Ejecutar tests de ambos proyectos
+# Ejecutar todos los tests de ambos proyectos
 npm run test
+
+# Ejecutar solo tests unitarios de todos los proyectos
+npm run test:unit
+
+# Ejecutar solo tests de integración de todos los proyectos
+npm run test:integration
 
 # Ejecutar tests del backend
 npm run test:back
@@ -151,13 +157,25 @@ Backend construido con Express y Socket.IO.
 - Socket.IO
 - TypeScript
 - Cors
+- Vitest (testing framework)
+- Supertest (API testing)
 
 **Comandos específicos** (desde `packages/back/`):
 ```bash
-npm run dev      # Desarrollo con hot-reload
-npm run build    # Compilar TypeScript
-npm run start    # Ejecutar versión compilada
+npm run dev              # Desarrollo con hot-reload
+npm run build            # Compilar TypeScript
+npm run start            # Ejecutar versión compilada
+npm run test             # Ejecutar todos los tests
+npm run test:unit        # Ejecutar solo tests unitarios
+npm run test:integration # Ejecutar solo tests de integración
+npm run test:watch       # Tests en modo watch
+npm run test:ui          # Tests con interfaz visual
+npm run test:coverage    # Tests con cobertura
 ```
+
+**Estructura de tests:**
+- `test/unit/` - Tests unitarios organizados por carpetas (model, services, sockets, store)
+- `test/integration/` - Tests de integración de rutas y API
 
 ### Frontend (`packages/front`)
 
@@ -172,11 +190,13 @@ Frontend construido con React.
 
 **Comandos específicos** (desde `packages/front/`):
 ```bash
-npm run start           # Desarrollo (puerto 3000)
-npm run build           # Build para producción
-npm run test            # Ejecutar tests
-npm run test:watch      # Tests en modo watch
-npm run test:coverage   # Tests con cobertura
+npm run start            # Desarrollo (puerto 3000)
+npm run build            # Build para producción
+npm run test             # Ejecutar todos los tests
+npm run test:unit        # Ejecutar solo tests unitarios
+npm run test:integration # Ejecutar solo tests de integración
+npm run test:watch       # Tests en modo watch
+npm run test:coverage    # Tests con cobertura
 ```
 
 ## Despliegue

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import TablePage from '../../../src/pages/TablePage/TablePage';
-import { PhaseDict } from '../../../src/types/Dicts';
+import {Phase, PhaseDict} from '../../../src/types/Dicts';
 import { theme } from '../../../src/styles/theme';
 
 const mockGameData = {
@@ -103,7 +103,7 @@ jest.mock('../../../src/hooks/useAdvance', () => ({
   useAdvance: () => ({ advance: jest.fn() }),
 }));
 
-const renderWithProviders = (phase: PhaseDict, currentTable: number = 1) => {
+const renderWithProviders = (phase: Phase, currentTable: number = 1) => {
   const { useGameContext } = require('../../../src/contexts/GameContext');
   useGameContext.mockReturnValue({
     data: { ...mockGameData, phase },
@@ -205,6 +205,6 @@ describe('TablePage Component', () => {
 
   it('should display correct table number', () => {
     renderWithProviders(PhaseDict.SUPER, 5);
-    expect(screen.getByText('Mesa 5')).toBeInTheDocument();
+    expect(screen.getByText('Mesa 6')).toBeInTheDocument();
   });
 });

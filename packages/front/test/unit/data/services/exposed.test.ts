@@ -1,13 +1,22 @@
 import { exposedService } from '../../../../src/data/services/exposed';
 import { post } from '../../../../src/data/core/api';
-import { parseData } from '../../../../src/utils/parsers';
 
 jest.mock('../../../../src/data/core/api');
-jest.mock('../../../../src/utils/parsers');
 
 describe('exposedService', () => {
   const mockDataService = {
-    tables: [],
+    tables: [{
+      players: [],
+      expert: false,
+      saved: false,
+      completeVeranke: false,
+      spiderWoman: 0,
+      superDamage: 0,
+      superThreat: 0,
+      ship: 0,
+      enemy: 0,
+      exposed: 0,
+    }],
     end: '2024-01-01T00:00:00.000Z',
     phase: 'PLAYING',
     superLifeMax: 10,
@@ -21,27 +30,12 @@ describe('exposedService', () => {
     aron: false,
   };
 
-  const mockParsedData = {
-    tables: [],
-    end: new Date('2024-01-01T00:00:00.000Z'),
-    phase: 'PLAYING' as const,
-    superLife: 100,
-    superPlan: 0,
-    spiderWoman: 100,
-    ship: 100,
-    enemy: 100,
-    exposed: 100,
-    uatu: false,
-    aron: false,
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should call post with correct endpoint and parameters', async () => {
     (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
 
     await exposedService(5, 1);
 
@@ -53,7 +47,6 @@ describe('exposedService', () => {
 
   it('should call post with different values', async () => {
     (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
 
     await exposedService(10, 2);
 
@@ -63,27 +56,8 @@ describe('exposedService', () => {
     });
   });
 
-  it('should parse the response data with table parameter', async () => {
-    (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
-
-    await exposedService(5, 3);
-
-    expect(parseData).toHaveBeenCalledWith(mockDataService, 3);
-  });
-
-  it('should return parsed data', async () => {
-    (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
-
-    const result = await exposedService(5, 1);
-
-    expect(result).toEqual(mockParsedData);
-  });
-
   it('should handle negative values', async () => {
     (post as jest.Mock).mockResolvedValueOnce(mockDataService);
-    (parseData as jest.Mock).mockReturnValueOnce(mockParsedData);
 
     await exposedService(-3, 1);
 
@@ -91,6 +65,23 @@ describe('exposedService', () => {
       value: -3,
       table: 1,
     });
+  });
+
+  it('should parse and return the response data', async () => {
+    (post as jest.Mock).mockResolvedValueOnce(mockDataService);
+
+    const result = await exposedService(5, 1);
+
+    expect(result.end).toBeInstanceOf(Date);
+    expect(result.phase).toBe('PLAYING');
+    expect(result.superLife).toBe(100);
+    expect(result.superPlan).toBe(0);
+    expect(result.spiderWomanTotal).toBe(100);
+    expect(result.ship).toBe(100);
+    expect(result.enemy).toBe(100);
+    expect(result.exposed).toBe(0);
+    expect(result.uatu).toBe(false);
+    expect(result.aron).toBe(false);
   });
 
   it('should handle errors', async () => {
