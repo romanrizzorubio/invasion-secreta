@@ -258,7 +258,7 @@ npm run test:e2e:headed # Con navegador visible
 npm run test:e2e:debug  # Modo debug paso a paso
 ```
 
-**Videos:** Los videos de las ejecuciones se guardan en `test-results/` y se graban automáticamente cuando un test falla. Usa `npm run test:e2e:video` para grabar todas las ejecuciones.
+**Reportes:** Los reportes HTML y resultados de tests se guardan en `e2e/playwright-report/` y `e2e/test-results/` respectivamente. Los videos se graban automáticamente cuando un test falla. Usa `npm run test:e2e:video` para grabar todas las ejecuciones.
 
 #### Generando nuevos tests E2E desde prompts
 

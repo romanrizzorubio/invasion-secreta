@@ -14,7 +14,7 @@ export const StyledSelect = styled.select<{ $size: Size }>`
   border: none;
   padding: 0.5rem;
   font-size: ${({ $size, theme }) => {
-    const sizes = {
+    const sizes: Record<Size, string> = {
       [SizeDict.S]: theme.typography.sizes.M,
       [SizeDict.M]: theme.typography.sizes.L,
       [SizeDict.L]: theme.typography.sizes.XL,
@@ -25,7 +25,7 @@ export const StyledSelect = styled.select<{ $size: Size }>`
 
   option {
     font-size: ${({ $size, theme }) => {
-      const sizes = {
+      const sizes: Record<Size, string> = {
         [SizeDict.S]: theme.typography.sizes.L,
         [SizeDict.M]: theme.typography.sizes.XL,
         [SizeDict.L]: theme.typography.sizes.XXL,

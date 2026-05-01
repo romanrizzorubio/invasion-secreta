@@ -6,7 +6,7 @@ import { GameData } from "../types/GameData";
 
 export function initTable(tableNumber: number, players: PlayerData[], expert: boolean): GameData {
   const state = updateGameState((data) => {
-    const currentTable = data.tables[tableNumber - 1];
+    const currentTable = data.tables[tableNumber];
 
     if (currentTable) {
       throw new Error("Table already exists");
@@ -24,7 +24,7 @@ export function initTable(tableNumber: number, players: PlayerData[], expert: bo
         exposed: 0
       };
 
-      data.tables[tableNumber - 1] = table;
+      data.tables[tableNumber] = table;
     }
   });
 

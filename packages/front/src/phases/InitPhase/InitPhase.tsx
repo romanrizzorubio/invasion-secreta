@@ -11,11 +11,16 @@ export const InitPhase = () => {
     initGame();
   }, [initGame]);
 
-  const inputValue = useMemo(() => end?.getTime(), [end]);
+  const timeValue = useMemo(() => {
+    if (!end) return '';
+    const hours = end.getHours().toString().padStart(2, '0');
+    const minutes = end.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }, [end]);
 
   return (
     <Wrapper>
-      <Input type="time" label="Hora de finalización" value={inputValue} onChange={changeEnd} />
+      <Input type="time" label="Hora de finalización" value={timeValue} onChange={changeEnd} />
       <Button label="Iniciar" onClick={handleStart} />
     </Wrapper>
   );

@@ -4,7 +4,7 @@ import { GameData } from "../types/GameData";
 
 export function resetTable(tableNumber: number): GameData {
   const state = updateGameState((data) => {
-    const currentTable = data.tables[tableNumber - 1];
+    const currentTable = data.tables[tableNumber];
 
     if (currentTable) {
       currentTable.saved = false;

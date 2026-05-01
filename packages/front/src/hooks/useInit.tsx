@@ -48,12 +48,12 @@ export const useInit = () => {
 
   const changeEnd = useCallback(
     (value: string | Date) => {
-      setData({
-        ...data,
+      setData((prevData) => ({
+        ...prevData,
         end: value instanceof Date ? value : new Date(value),
-      });
+      }));
     },
-    [data, setData],
+    [setData],
   );
 
   return {

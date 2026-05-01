@@ -6,7 +6,7 @@ import { getDamage, isDefeated } from "../model/super";
 
 export function updateSuperLife(value: number, tableNumber: number): GameData {
   const state = updateGameState((data) => {
-    const table = data.tables[tableNumber - 1];
+    const table = data.tables[tableNumber];
 
     if (!table) throw new Error("Table not found");
 

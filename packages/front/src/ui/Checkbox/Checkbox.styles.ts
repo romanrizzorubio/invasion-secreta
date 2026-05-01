@@ -15,7 +15,7 @@ export const StyledInput = styled.input<{ $size: Size }>`
   border: none;
   padding: 0.5rem;
   width: ${({ $size }) => {
-    const scales = {
+    const scales: Record<Size, string> = {
       [SizeDict.S]: '8px',
       [SizeDict.M]: '16px',
       [SizeDict.L]: '32px',
@@ -24,7 +24,7 @@ export const StyledInput = styled.input<{ $size: Size }>`
     return scales[$size];
   }};
   height: ${({ $size }) => {
-    const scales = {
+    const scales: Record<Size, string> = {
       [SizeDict.S]: '8px',
       [SizeDict.M]: '16px',
       [SizeDict.L]: '32px',
@@ -33,7 +33,7 @@ export const StyledInput = styled.input<{ $size: Size }>`
     return scales[$size];
   }};
   transform: ${({ $size }) => {
-    const scales = {
+    const scales: Record<Size, string> = {
       [SizeDict.S]: 'scale(1)',
       [SizeDict.M]: 'scale(1.5)',
       [SizeDict.L]: 'scale(2)',

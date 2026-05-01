@@ -3,7 +3,6 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
-  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -46,16 +45,16 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const [data, setData] = useState<Data>(initialData);
   const [currentTable, setCurrentTable] = useState(-1);
 
-  const loadData = useCallback(async () => {
-    try {
-      const response = await loadService(currentTable);
-      setData(response);
-    } catch (error) {
-      console.error('Error al cargar los datos', error);
-    }
-  }, [currentTable]);
-
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await loadService(currentTable);
+        setData(response);
+      } catch (error) {
+        console.error('Error al cargar los datos', error);
+      }
+    };
+
     loadData();
 
     return loadSocket({
@@ -65,13 +64,13 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       handleData: setData,
       handleError: (error: Error) => console.error('Error en el socket', error),
     });
-  }, [loadData, currentTable]);
+  }, [currentTable]);
 
   useEffect(() => {
-    if (data.phase === PhaseDict.INIT) {
+    if (data.phase === PhaseDict.INIT && currentTable !== -1) {
       setCurrentTable(-1);
     }
-  }, [data, setCurrentTable]);
+  }, [data.phase, currentTable]);
 
   return (
     <GameContext.Provider

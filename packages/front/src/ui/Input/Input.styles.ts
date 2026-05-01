@@ -14,7 +14,7 @@ export const StyledInput = styled.input<{ $size: Size }>`
   border: none;
   padding: 0.5rem;
   font-size: ${({ $size, theme }) => {
-    const sizes = {
+    const sizes: Record<Size, string> = {
       [SizeDict.S]: theme.typography.sizes.M,
       [SizeDict.M]: theme.typography.sizes.L,
       [SizeDict.L]: theme.typography.sizes.XL,
