@@ -9,6 +9,9 @@ invasion-secreta/
 ├── packages/
 │   ├── back/          # Backend (Express + Socket.IO)
 │   └── front/         # Frontend (React)
+├── e2e/               # Tests end-to-end
+│   ├── playwright.config.ts
+│   └── tests/
 ├── docker-compose.yml
 ├── docker-compose.dev.yml
 └── package.json
@@ -69,6 +72,18 @@ npm run test:unit
 
 # Ejecutar solo tests de integración de todos los proyectos
 npm run test:integration
+
+# Ejecutar tests E2E (end-to-end) que prueban frontend y backend juntos
+npm run test:e2e
+
+# Ejecutar tests E2E con interfaz visual interactiva
+npm run test:e2e:ui
+
+# Ejecutar tests E2E con navegador visible
+npm run test:e2e:headed
+
+# Ejecutar tests E2E en modo debug
+npm run test:e2e:debug
 
 # Ejecutar tests del backend
 npm run test:back
@@ -197,6 +212,36 @@ npm run test:unit        # Ejecutar solo tests unitarios
 npm run test:integration # Ejecutar solo tests de integración
 npm run test:watch       # Tests en modo watch
 npm run test:coverage    # Tests con cobertura
+```
+
+**Estructura de tests:**
+- `test/unit/` - Tests unitarios de componentes, hooks y utilidades
+- `test/integration/` - Tests de integración de flujos de usuario
+
+### Tests E2E (`e2e/`)
+
+Tests end-to-end que verifican el funcionamiento completo de la aplicación, probando la integración real entre frontend y backend.
+
+**Tecnologías:**
+- Playwright - Framework de testing E2E
+
+**Tests incluidos:**
+- `game-initialization.spec.ts` - Inicialización del juego, API backend, obtención de datos y reset
+- `websocket-connection.spec.ts` - Conexiones WebSocket, actualizaciones en tiempo real y reconexión
+- `game-flow.spec.ts` - Flujo completo del juego, operaciones de tabla, avance de fases y finalización
+
+**Características:**
+- Levanta automáticamente backend (puerto 4000) y frontend (puerto 3000)
+- Ejecuta tests contra ambos servicios simultáneamente
+- Verifica integración completa de WebSockets
+- Prueba flujos de usuario reales
+
+**Comandos** (desde raíz):
+```bash
+npm run test:e2e        # Ejecutar tests E2E
+npm run test:e2e:ui     # Interfaz visual interactiva
+npm run test:e2e:headed # Con navegador visible
+npm run test:e2e:debug  # Modo debug paso a paso
 ```
 
 ## Despliegue
