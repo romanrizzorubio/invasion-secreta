@@ -1,5 +1,7 @@
 import { expect, test, type BrowserContext, type Locator, type Page } from '@playwright/test';
 
+import { closeContextsAndHandleVideos, newRecordedContext } from './support/video-context';
+
 const baseURL = 'http://localhost:3000';
 const apiURL = 'http://localhost:4000';
 const initialThreatPercentage = 100 / 7;
@@ -87,17 +89,17 @@ test.describe('Test E2E: Los valores del plan del Súper Skrull genera correctam
   test('sincroniza la amenaza del plan entre host, mesa normal y mesa experta hasta la victoria', async ({
     browser,
     request,
-  }) => {
+  }, testInfo) => {
     const resetResponse = await request.post(`${apiURL}/reset`);
     expect(resetResponse.ok()).toBeTruthy();
 
     const contexts: BrowserContext[] = [];
+    let keepVideos = false;
 
     try {
-      const contextHost = await browser.newContext();
-      const contextTableOne = await browser.newContext();
-      const contextTableTwo = await browser.newContext();
-      contexts.push(contextHost, contextTableOne, contextTableTwo);
+      const contextHost = await newRecordedContext(browser, testInfo, contexts);
+      const contextTableOne = await newRecordedContext(browser, testInfo, contexts);
+      const contextTableTwo = await newRecordedContext(browser, testInfo, contexts);
 
       const host = await contextHost.newPage();
       const tableOne = await contextTableOne.newPage();
@@ -189,8 +191,11 @@ test.describe('Test E2E: Los valores del plan del Súper Skrull genera correctam
       await expect(tableTwo.getByText('El Súper Skrull ha logrado sus planes')).toBeVisible();
       await expect(host.getByText('El Súper Skrull ha logrado sus planes')).toBeVisible();
       await expect(host.getByRole('button', { name: 'Avanzar' })).toBeVisible();
+    } catch (error) {
+      keepVideos = true;
+      throw error;
     } finally {
-      await Promise.all(contexts.map((context) => context.close()));
+      await closeContextsAndHandleVideos(contexts, testInfo, keepVideos);
     }
   });
 });

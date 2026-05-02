@@ -22,23 +22,37 @@ El prompt funcional debe describir el flujo de negocio, las pestañas implicadas
 ## Gestión de pestañas y contextos
 
 - Cada pestaña, jugador, host, mesa o rol debe ejecutarse en un contexto independiente.
-- Crear cada pestaña con `browser.newContext()` y `context.newPage()`.
+- Crear cada contexto con `newRecordedContext(browser, testInfo, contexts)` y cada pestaña con `context.newPage()`.
+- Importar los helpers de vídeo desde `./support/video-context`.
+- El callback del test debe recibir `testInfo` como segundo argumento para que los vídeos se guarden en el directorio de resultados de Playwright.
 - No reutilizar el mismo contexto para roles distintos si el test valida sincronización entre clientes.
 - Nombrar las páginas de forma explícita según el rol:
   - `host`
   - `tableOne`
   - `tableTwo`
   - `player`
-- Cerrar todos los contextos al final del test.
+- Cerrar todos los contextos al final del test con `closeContextsAndHandleVideos`.
 
 Ejemplo:
 
 ```ts
-const contextHost = await browser.newContext();
-const host = await contextHost.newPage();
+import { closeContextsAndHandleVideos, newRecordedContext } from './support/video-context';
 
-const contextTableOne = await browser.newContext();
-const tableOne = await contextTableOne.newPage();
+const contexts: BrowserContext[] = [];
+let keepVideos = false;
+
+try {
+  const contextHost = await newRecordedContext(browser, testInfo, contexts);
+  const host = await contextHost.newPage();
+
+  const contextTableOne = await newRecordedContext(browser, testInfo, contexts);
+  const tableOne = await contextTableOne.newPage();
+} catch (error) {
+  keepVideos = true;
+  throw error;
+} finally {
+  await closeContextsAndHandleVideos(contexts, testInfo, keepVideos);
+}
 ```
 
 ---
@@ -69,10 +83,11 @@ Ejemplo:
 ```ts
 async function clickAndWaitForPost(page: Page, button: Locator, endpoint: string) {
   await Promise.all([
-    page.waitForResponse(response =>
-      response.url().includes(endpoint) &&
-      response.request().method() === 'POST' &&
-      response.ok()
+    page.waitForResponse(
+      (response) =>
+        response.url().includes(endpoint) &&
+        response.request().method() === 'POST' &&
+        response.ok(),
     ),
     button.click(),
   ]);
