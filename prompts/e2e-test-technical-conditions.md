@@ -129,6 +129,15 @@ Debe validar, cuando aplique:
 
 ---
 
+## Ejecución y permisos
+
+- Verificar el test generado con el comando de E2E del proyecto, normalmente `npm run test:e2e -- e2e/tests/[nombre-del-test].spec.ts`.
+- Si Playwright debe levantar servidores locales mediante `webServer` y el entorno bloquea la escucha en puertos como `3000` o `4000` con errores tipo `listen EPERM`, pedir permisos escalados para ejecutar el comando de verificación.
+- Al pedir permisos escalados, justificar que Playwright necesita levantar backend y frontend locales para comprobar el test E2E.
+- No cambiar la configuración de puertos ni el test para evitar el bloqueo del sandbox si el problema es únicamente de permisos de ejecución.
+
+---
+
 ## Información que debe venir del prompt funcional
 
 Antes de generar el test, el prompt funcional debe especificar:
