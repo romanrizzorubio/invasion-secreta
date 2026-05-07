@@ -48,10 +48,10 @@ export const useWatchers = () => {
   }, [data.uatu, data.aron, setUatu, setAron]);
 
   useEffect(() => {
-    if (uatu && aron) {
-      if (uatu === 1 && aron === data.tables.length) {
+    if (uatu !== undefined && aron !== undefined) {
+      if (uatu === 0 && aron === data.tables.length - 1) {
         setUatuDisabled(true);
-      } else if (uatu === data.tables.length && aron === 1) {
+      } else if (uatu === data.tables.length - 1 && aron === 0) {
         setUatuDisabled(true);
       } else {
         setUatuDisabled(uatu >= aron - 1 && uatu <= aron + 1);

@@ -22,7 +22,7 @@ export const Watcher = ({
   readOnly = false,
 }: WatcherProps) => {
   const tableText = useMemo(
-    () => (readOnly && table ? getTableText(table) : undefined),
+    () => (readOnly && table !== undefined ? getTableText(table) : undefined),
     [table, readOnly],
   );
 
