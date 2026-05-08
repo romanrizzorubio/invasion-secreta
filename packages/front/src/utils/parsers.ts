@@ -33,9 +33,9 @@ export const parseData = (
   }: DataService,
   currentTable?: number,
 ): Data => {
-  const minSpiderWoman = tables.reduce(
-    (acc, table) => (table ? Math.min(acc, table.spiderWoman) : acc),
-    spiderWomanMax,
+  const maxSpiderWoman = tables.reduce(
+    (acc, table) => (table ? Math.max(acc, table.spiderWoman) : acc),
+    0,
   );
   const ownSpiderWoman =
     currentTable !== undefined && currentTable >= 0 ? tables[currentTable]?.spiderWoman : undefined;
@@ -45,7 +45,7 @@ export const parseData = (
   const sumExposed = tables.reduce((acc, table) => (table ? acc + table.exposed : acc), 0);
   const sumEnemy = tables.reduce((acc, table) => (table ? acc + table.enemy : acc), 0);
 
-  const spiderWoman = spiderWomanMax - minSpiderWoman;
+  const spiderWoman = spiderWomanMax - maxSpiderWoman;
   const spiderWomanOwn = ownSpiderWoman !== undefined ? spiderWomanMax - ownSpiderWoman : undefined;
   const superLife = superLifeMax - sumSuperDamage;
   const superPlan = superPlanIni + sumSuperPlan;

@@ -8,6 +8,7 @@ export const Wrapper = styled.section`
 `;
 
 export const Container = styled.div`
+  box-sizing: border-box;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
