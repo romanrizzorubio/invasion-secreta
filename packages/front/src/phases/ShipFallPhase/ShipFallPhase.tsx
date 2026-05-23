@@ -20,7 +20,7 @@ export const ShipFallPhase = ({ readOnly }: ShipFallPhaseProps) => {
           readOnly
             ? undefined
             : {
-                label: 'Colocar contador',
+                label: 'Quitar contador',
                 size: SizeDict.M,
                 onClick: addShipCounter,
               }
