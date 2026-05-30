@@ -31,6 +31,7 @@ export const Watcher = ({
       <Panel
         type={type}
         disabled={disabled}
+        hasBackground={readOnly}
         buttons={
           readOnly
             ? undefined

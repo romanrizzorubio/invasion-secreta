@@ -4,6 +4,7 @@ import { PhaseDict } from '../../types/Dicts';
 import { SuperChangePhase } from '../../phases/SuperChangePhase/SuperChangePhase';
 import { ShipFallPhase } from '../../phases/ShipFallPhase/ShipFallPhase';
 import { ShipOpenPhase } from '../../phases/ShipOpenPhase/ShipOpenPhase';
+import { OsbornChangePhase } from '../../phases/OsbornChangePhase/OsbornChangePhase';
 import { OsbornPhase } from '../../phases/OsbornPhase/OsbornPhase';
 import { EnemyPhase } from '../../phases/EnemyPhase/EnemyPhase';
 import { Timer } from '../../components/Timer/Timer';
@@ -48,6 +49,7 @@ const TablePage = () => {
             {phase === PhaseDict.SHIP_FALL && <ShipFallPhase />}
             {phase === PhaseDict.SHIP_OPEN && <ShipOpenPhase readOnly />}
             {phase === PhaseDict.ENEMY && <EnemyPhase />}
+            {phase === PhaseDict.OSBORN_REVEAL && <OsbornChangePhase readOnly />}
             {phase === PhaseDict.VERANKE_LOSE && <OsbornPhase />}
             {phase === PhaseDict.VERANKE_WIN && <OsbornPhase hasWin />}
           </Container>

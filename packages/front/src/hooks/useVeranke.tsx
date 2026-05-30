@@ -5,6 +5,7 @@ import { useGameContext } from '../contexts/GameContext';
 export const useVeranke = () => {
   const [completed, setCompleted] = useState(false);
   const [exposed, setExposed] = useState(0);
+  const [exposedValue, setExposedValue] = useState(0);
 
   const { data, currentTable } = useGameContext();
   const { sendComplete, sendExposed } = useSendData();
@@ -27,6 +28,7 @@ export const useVeranke = () => {
         const data = await sendExposed(value);
         if (data) {
           setExposed(data.exposed);
+          setExposedValue(data.exposedValue);
         }
         return true;
       } catch (error) {
@@ -48,11 +50,13 @@ export const useVeranke = () => {
 
   useEffect(() => {
     setExposed(data.exposed);
-  }, [data.exposed, setExposed]);
+    setExposedValue(data.exposedValue);
+  }, [data.exposed, data.exposedValue, setExposed]);
 
   return {
     completed,
     exposed,
+    exposedValue,
     complete,
     changeExposed,
   };

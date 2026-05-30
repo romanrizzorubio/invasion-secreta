@@ -9,13 +9,14 @@ export type ShipFallPhaseProps = {
 };
 
 export const ShipFallPhase = ({ readOnly }: ShipFallPhaseProps) => {
-  const { ship, addShipCounter } = useShip();
-  const { completed, complete, exposed, changeExposed } = useVeranke();
+  const { ship, shipValue, addShipCounter } = useShip();
+  const { completed, complete, exposed, exposedValue, changeExposed } = useVeranke();
   return (
     <Wrapper>
       <Panel
         type={PanelTypeDict.SHIP_FALL}
-        progress={{ percentage: ship, label: 'Tiempo' }}
+        progress={{ percentage: ship, value: shipValue, label: 'Tiempo' }}
+        hasBackground={readOnly}
         buttons={
           readOnly
             ? undefined
@@ -39,7 +40,8 @@ export const ShipFallPhase = ({ readOnly }: ShipFallPhaseProps) => {
       {completed && (
         <Panel
           type={PanelTypeDict.EXPOSED}
-          progress={{ percentage: exposed, label: 'Amenaza' }}
+          progress={{ percentage: exposed, value: exposedValue, label: 'Amenaza' }}
+          hasBackground={readOnly}
           controls={
             readOnly
               ? undefined

@@ -14,9 +14,14 @@ describe('Progress', () => {
     expect(container.firstChild).toBeInTheDocument();
   });
 
-  it('should render progress bar with label', () => {
-    renderWithTheme(<Progress percentage={75} label="75%" />);
-    expect(screen.getByText('75%')).toBeInTheDocument();
+  it('should render progress bar with label and percentage', () => {
+    renderWithTheme(<Progress percentage={75} label="Salud" />);
+    expect(screen.getByText('75 (Salud)')).toBeInTheDocument();
+  });
+
+  it('should render progress bar with value if provided', () => {
+    renderWithTheme(<Progress percentage={50} value={10} label="Vida" />);
+    expect(screen.getByText('10 (Vida)')).toBeInTheDocument();
   });
 
   it('should show HIGH status when percentage > 66 (normal mode)', () => {

@@ -155,7 +155,7 @@ describe('TablePage Component', () => {
 
   it('should render SuperPhase when phase is SUPER', () => {
     renderWithProviders(PhaseDict.SUPER);
-    expect(screen.getByText('Vida')).toBeInTheDocument();
+    expect(screen.getByText(/Vida/)).toBeInTheDocument();
   });
 
   it('should render content when phase is SUPER', () => {
@@ -201,6 +201,11 @@ describe('TablePage Component', () => {
   it('should render OsbornPhase with hasWin when phase is VERANKE_WIN', () => {
     renderWithProviders(PhaseDict.VERANKE_WIN);
     expect(screen.getByText(/Norman Osborn/i)).toBeInTheDocument();
+  });
+
+  it('should render OsbornChangePhase with readOnly when phase is OSBORN_REVEAL', () => {
+    renderWithProviders(PhaseDict.OSBORN_REVEAL);
+    expect(screen.getByText(/Muestra la carta de Norman Osborn/i)).toBeInTheDocument();
   });
 
   it('should display correct table number', () => {

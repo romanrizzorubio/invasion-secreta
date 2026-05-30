@@ -26,9 +26,18 @@ export type PanelProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> & {
   controls?: ControlsProps;
   buttons?: ButtonProps | ButtonProps[];
   disabled?: boolean;
+  hasBackground?: boolean;
 };
 
-export const Panel = ({ type, progress, msg, controls, buttons, disabled = false }: PanelProps) => {
+export const Panel = ({
+  type,
+  progress,
+  msg,
+  controls,
+  buttons,
+  disabled = false,
+  hasBackground = false,
+}: PanelProps) => {
   const img = useMemo(() => {
     const imgMap = {
       [PanelTypeDict.SUPER]: imgSuperLife,
@@ -56,19 +65,25 @@ export const Panel = ({ type, progress, msg, controls, buttons, disabled = false
       <ProgressPanel>
         {progress &&
           (progress instanceof Array ? (
-            progress.map((p, index) => <Progress key={`progress-${index}`} {...p} />)
+            progress.map((p, index) => (
+              <Progress key={`progress-${index}`} {...p} hasBackground={hasBackground} />
+            ))
           ) : (
-            <Progress {...progress} />
+            <Progress {...progress} hasBackground={hasBackground} />
           ))}
       </ProgressPanel>
       {controls && <Controls {...controls} />}
       {buttons &&
         (buttons instanceof Array ? (
           buttons.map((button, index) => (
-            <Button key={`button-${index}`} {...button} disabled={disabled} />
+            <Button
+              key={`button-${index}`}
+              {...button}
+              disabled={disabled || button.disabled}
+            />
           ))
         ) : (
-          <Button {...buttons} disabled={disabled} />
+          <Button {...buttons} disabled={disabled || buttons.disabled} />
         ))}
     </Wrapper>
   );

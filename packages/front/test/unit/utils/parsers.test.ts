@@ -57,6 +57,7 @@ describe('Parsers', () => {
         expert: true,
         saved: false,
         completeVeranke: true,
+        exposed: 6,
       });
     });
 
@@ -84,6 +85,7 @@ describe('Parsers', () => {
         expert: false,
         saved: true,
         completeVeranke: false,
+        exposed: 0,
       });
     });
   });
@@ -276,7 +278,7 @@ describe('Parsers', () => {
       expect(result.tables).toHaveLength(2);
       expect(result.superLife).toBe(70);
       expect(result.superPlan).toBe(40);
-      expect(result.spiderWomanTotal).toBe(80);
+      expect(result.spiderWomanTotal).toBe(40);
       expect(result.ship).toBeCloseTo(66.67, 1);
       expect(result.enemy).toBe(60);
       expect(result.exposed).toBe(30);

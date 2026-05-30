@@ -15,8 +15,8 @@ export function updateExposed(value: number, tableNumber: number): GameData {
 
     table.exposed += actualThreat;
 
-    if (isCompleted(data)) {
-      data.phase = PhaseDict.VERANKE_WIN;
+    if (data.phase === PhaseDict.ENEMY && isCompleted(data)) {
+      data.phase = PhaseDict.OSBORN_REVEAL;
     }
   });
 

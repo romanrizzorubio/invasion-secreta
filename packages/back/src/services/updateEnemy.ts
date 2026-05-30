@@ -12,8 +12,8 @@ export function updateEnemy(value: number, tableNumber: number): GameData {
 
     table.enemy += value;
 
-    if (isDefeated(data)) {
-      data.phase = PhaseDict.VERANKE_LOSE;
+    if (data.phase === PhaseDict.ENEMY && isDefeated(data)) {
+      data.phase = PhaseDict.OSBORN_REVEAL;
     }
   });
 

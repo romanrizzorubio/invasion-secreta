@@ -14,6 +14,7 @@ export const parseTable = (table: TableService, currentTable: number): Table => 
   expert: table.expert,
   saved: table.saved,
   completeVeranke: table.completeVeranke,
+  exposed: table.exposed,
 });
 
 export const parseData = (
@@ -33,10 +34,7 @@ export const parseData = (
   }: DataService,
   currentTable?: number,
 ): Data => {
-  const maxSpiderWoman = tables.reduce(
-    (acc, table) => (table ? Math.max(acc, table.spiderWoman) : acc),
-    0,
-  );
+  const sumSpiderWoman = tables.reduce((acc, table) => (table ? acc + table.spiderWoman : acc), 0);
   const ownSpiderWoman =
     currentTable !== undefined && currentTable >= 0 ? tables[currentTable]?.spiderWoman : undefined;
   const sumSuperDamage = tables.reduce((acc, table) => (table ? acc + table.superDamage : acc), 0);
@@ -45,7 +43,7 @@ export const parseData = (
   const sumExposed = tables.reduce((acc, table) => (table ? acc + table.exposed : acc), 0);
   const sumEnemy = tables.reduce((acc, table) => (table ? acc + table.enemy : acc), 0);
 
-  const spiderWoman = spiderWomanMax - maxSpiderWoman;
+  const spiderWoman = spiderWomanMax - sumSpiderWoman;
   const spiderWomanOwn = ownSpiderWoman !== undefined ? spiderWomanMax - ownSpiderWoman : undefined;
   const superLife = superLifeMax - sumSuperDamage;
   const superPlan = superPlanIni + sumSuperPlan;
@@ -58,13 +56,21 @@ export const parseData = (
     end: new Date(end),
     phase,
     spiderWomanTotal: (spiderWoman * 100) / spiderWomanMax,
+    spiderWomanTotalValue: spiderWoman,
     spiderWomanOwn:
       spiderWomanOwn !== undefined ? (spiderWomanOwn * 100) / spiderWomanMax : undefined,
+    spiderWomanOwnValue: spiderWomanOwn,
     superLife: (superLife * 100) / superLifeMax,
+    superLifeValue: superLife,
     superPlan: (superPlan * 100) / superPlanMax,
+    superPlanValue: superPlan,
     ship: (ship * 100) / shipMax,
+    shipValue: ship,
     enemy: (enemy * 100) / enemyInit,
+    enemyValue: enemy,
     exposed: (exposed * 100) / exposedMax,
+    exposedValue: exposed,
+    exposedMax,
     uatu,
     aron,
   };

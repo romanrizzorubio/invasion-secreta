@@ -21,4 +21,5 @@ export type Table = {
   saved: boolean;
   expert: boolean;
   completeVeranke: boolean;
+  exposed: number;
 };

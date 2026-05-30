@@ -27,7 +27,7 @@ export const useTimer = () => {
 
     if (
       phase >= PhaseDict.SUPER &&
-      phase < PhaseDict.VERANKE_WIN &&
+      phase < PhaseDict.OSBORN_REVEAL &&
       time.getTime() < now.getTime()
     ) {
       sendEndTime();

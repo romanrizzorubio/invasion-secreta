@@ -26,12 +26,12 @@ export const useSendData = () => {
 
   const sendAdvance = useCallback(async () => {
     try {
-      return await advanceService();
+      return await advanceService(currentTable);
     } catch (error) {
       console.error('Error al cargar los datos', error);
       return false;
     }
-  }, []);
+  }, [currentTable]);
 
   const sendSpiderWoman = useCallback(
     async (value: number) => {

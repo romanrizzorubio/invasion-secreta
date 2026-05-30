@@ -9,7 +9,16 @@ const mockGameData = {
   phase: PhaseDict.INIT,
   time: 0,
   players: [],
-  tables: [],
+  tables: [
+    {
+      currentTable: 0,
+      players: [],
+      saved: true,
+      expert: false,
+      completeVeranke: true,
+      exposed: 10,
+    },
+  ],
   enemies: { values: [], total: 0 },
   ship: { values: [], total: 0 },
   spiderWoman: { values: [], total: 0 },
@@ -20,7 +29,8 @@ const mockGameData = {
   superReveal: 0,
   superPlan: 0,
   heroes: { values: [], total: 0 },
-  exposed: { values: [], total: 0 },
+  exposed: 0,
+  exposedMax: 0,
 };
 
 jest.mock('../../../src/contexts/GameContext', () => ({
@@ -128,7 +138,7 @@ describe('HomePage Component', () => {
 
   it('should render SuperPhase when phase is SUPER', () => {
     renderWithProviders(PhaseDict.SUPER);
-    expect(screen.getByText('Vida')).toBeInTheDocument();
+    expect(screen.getByText(/Vida/)).toBeInTheDocument();
   });
 
   it('should render SuperPhase components when phase is SUPER', () => {
@@ -174,5 +184,10 @@ describe('HomePage Component', () => {
   it('should render OsbornPhase with hasWin when phase is VERANKE_WIN', () => {
     renderWithProviders(PhaseDict.VERANKE_WIN);
     expect(screen.getByText(/Norman Osborn/i)).toBeInTheDocument();
+  });
+
+  it('should render OsbornChangePhase when phase is OSBORN_REVEAL', () => {
+    renderWithProviders(PhaseDict.OSBORN_REVEAL);
+    expect(screen.getByText(/¡Victoria! Muestra la carta de Norman Osborn/i)).toBeInTheDocument();
   });
 });

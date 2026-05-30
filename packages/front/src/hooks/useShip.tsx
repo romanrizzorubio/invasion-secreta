@@ -4,6 +4,7 @@ import { useGameContext } from '../contexts/GameContext';
 
 export const useShip = () => {
   const [ship, setShip] = useState(0);
+  const [shipValue, setShipValue] = useState(0);
 
   const { data } = useGameContext();
   const { sendShip } = useSendData();
@@ -13,6 +14,7 @@ export const useShip = () => {
       const data = await sendShip();
       if (data) {
         setShip(data.ship);
+        setShipValue(data.shipValue);
       }
       return true;
     } catch (error) {
@@ -23,10 +25,12 @@ export const useShip = () => {
 
   useEffect(() => {
     setShip(data.ship);
+    setShipValue(data.shipValue);
   }, [data, setShip]);
 
   return {
     ship,
+    shipValue,
     addShipCounter,
   };
 };

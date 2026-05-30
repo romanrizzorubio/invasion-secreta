@@ -25,11 +25,18 @@ const initialData: Data = {
   tables: [],
   phase: PhaseDict.INIT,
   superLife: 0,
+  superLifeValue: 0,
   superPlan: 0,
+  superPlanValue: 0,
   spiderWomanTotal: 0,
+  spiderWomanTotalValue: 0,
   ship: 0,
+  shipValue: 0,
   enemy: 0,
+  enemyValue: 0,
   exposed: 0,
+  exposedValue: 0,
+  exposedMax: 0,
 };
 
 const GameContext = createContext<GameContextValue | undefined>(undefined);

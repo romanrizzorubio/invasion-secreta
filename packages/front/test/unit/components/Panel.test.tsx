@@ -31,10 +31,10 @@ describe('Panel Component', () => {
     renderWithTheme(
       <Panel
         type={PanelTypeDict.SUPER}
-        progress={{ current: 5, max: 10, label: 'Life' }}
+        progress={{ percentage: 50, label: 'Life' }}
       />
     );
-    expect(screen.getByText('Life')).toBeInTheDocument();
+    expect(screen.getByText(/Life/)).toBeInTheDocument();
   });
 
   it('should render multiple progress bars', () => {
@@ -42,13 +42,13 @@ describe('Panel Component', () => {
       <Panel
         type={PanelTypeDict.SUPER}
         progress={[
-          { current: 5, max: 10, label: 'Life' },
-          { current: 3, max: 5, label: 'Plan' },
+          { percentage: 50, label: 'Life' },
+          { percentage: 30, label: 'Plan' },
         ]}
       />
     );
-    expect(screen.getByText('Life')).toBeInTheDocument();
-    expect(screen.getByText('Plan')).toBeInTheDocument();
+    expect(screen.getByText(/Life/)).toBeInTheDocument();
+    expect(screen.getByText(/Plan/)).toBeInTheDocument();
   });
 
   it('should render controls when provided', () => {

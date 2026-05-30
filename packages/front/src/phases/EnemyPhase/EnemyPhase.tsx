@@ -9,15 +9,16 @@ export type EnemyPhaseProps = {
 };
 
 export const EnemyPhase = ({ readOnly = false }: EnemyPhaseProps) => {
-  const { enemy, changeEnemy } = useEnemy();
-  const { completed, complete, exposed, changeExposed } = useVeranke();
+  const { enemy, enemyValue, changeEnemy } = useEnemy();
+  const { completed, complete, exposed, exposedValue, changeExposed } = useVeranke();
 
   return (
     <Wrapper>
       <Panel
         type={PanelTypeDict.ENEMY}
-        progress={{ percentage: enemy, label: 'Amenaza' }}
+        progress={{ percentage: enemy, value: enemyValue, label: 'Amenaza' }}
         controls={readOnly ? undefined : { onChange: changeEnemy }}
+        hasBackground={readOnly}
       />
       {!readOnly && !completed && (
         <Panel
@@ -32,7 +33,8 @@ export const EnemyPhase = ({ readOnly = false }: EnemyPhaseProps) => {
       {completed && (
         <Panel
           type={PanelTypeDict.EXPOSED}
-          progress={{ percentage: exposed, label: 'Amenaza' }}
+          progress={{ percentage: exposed, value: exposedValue, label: 'Amenaza' }}
+          hasBackground={readOnly}
           controls={
             readOnly
               ? undefined

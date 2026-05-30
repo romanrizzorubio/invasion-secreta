@@ -1,14 +1,22 @@
 import { useMemo } from 'react';
-import { Bar } from './Progress.styles';
+import { Bar, Container, Content, Value } from './Progress.styles';
 import { StatusBarDict } from '../../types/Dicts';
 
 export type ProgressProps = {
   percentage: number;
+  value?: number;
   invert?: boolean;
   label?: string;
+  hasBackground?: boolean;
 };
 
-export const Progress = ({ percentage, label, invert = false }: ProgressProps) => {
+export const Progress = ({
+  percentage,
+  value,
+  label,
+  invert = false,
+  hasBackground = false,
+}: ProgressProps) => {
   const status = useMemo(() => {
     if (invert) {
       if (percentage < 33) {
@@ -28,8 +36,14 @@ export const Progress = ({ percentage, label, invert = false }: ProgressProps) =
   }, [percentage, invert]);
 
   return (
-    <Bar $percentage={percentage} $status={status} $hasChildren={!!label}>
-      {label}
-    </Bar>
+    <Container $hasBackground={hasBackground}>
+      <Bar $percentage={percentage} $status={status} />
+      <Content>
+        <Value>
+          {value !== undefined ? value : percentage}
+          {label && ` (${label})`}
+        </Value>
+      </Content>
+    </Container>
   );
 };

@@ -4,9 +4,13 @@ import { useGameContext } from '../contexts/GameContext';
 
 export const useSuper = () => {
   const [spiderWomanTotal, setSpiderWomanTotal] = useState(0);
+  const [spiderWomanTotalValue, setSpiderWomanTotalValue] = useState(0);
   const [spiderWomanOwn, setSpiderWomanOwn] = useState<number | undefined>(undefined);
+  const [spiderWomanOwnValue, setSpiderWomanOwnValue] = useState<number | undefined>(undefined);
   const [superLife, setSuperLife] = useState(0);
+  const [superLifeValue, setSuperLifeValue] = useState(0);
   const [superPlan, setSuperPlan] = useState(0);
+  const [superPlanValue, setSuperPlanValue] = useState(0);
 
   const { data } = useGameContext();
   const { sendSuperPlan, sendSuperLife, sendSpiderWoman } = useSendData();
@@ -17,7 +21,11 @@ export const useSuper = () => {
         const data = await sendSpiderWoman(value);
         if (data) {
           setSpiderWomanTotal(data.spiderWomanTotal);
-          data.spiderWomanOwn && setSpiderWomanOwn(data.spiderWomanOwn);
+          setSpiderWomanTotalValue(data.spiderWomanTotalValue);
+          if (data.spiderWomanOwn) {
+            setSpiderWomanOwn(data.spiderWomanOwn);
+            setSpiderWomanOwnValue(data.spiderWomanOwnValue);
+          }
         }
         return true;
       } catch (error) {
@@ -34,6 +42,7 @@ export const useSuper = () => {
         const data = await sendSuperLife(value);
         if (data) {
           setSuperLife(data.superLife);
+          setSuperLifeValue(data.superLifeValue);
         }
         return true;
       } catch (error) {
@@ -50,6 +59,7 @@ export const useSuper = () => {
         const data = await sendSuperPlan(value);
         if (data) {
           setSuperPlan(data.superPlan);
+          setSuperPlanValue(data.superPlanValue);
         }
         return true;
       } catch (error) {
@@ -62,25 +72,41 @@ export const useSuper = () => {
 
   useEffect(() => {
     setSpiderWomanTotal(data.spiderWomanTotal);
+    setSpiderWomanTotalValue(data.spiderWomanTotalValue);
     data.spiderWomanOwn && setSpiderWomanOwn(data.spiderWomanOwn);
+    data.spiderWomanOwnValue && setSpiderWomanOwnValue(data.spiderWomanOwnValue);
     setSuperLife(data.superLife);
+    setSuperLifeValue(data.superLifeValue);
     setSuperPlan(data.superPlan);
+    setSuperPlanValue(data.superPlanValue);
   }, [
     data.spiderWomanTotal,
+    data.spiderWomanTotalValue,
     data.spiderWomanOwn,
+    data.spiderWomanOwnValue,
     data.superLife,
+    data.superLifeValue,
     data.superPlan,
+    data.superPlanValue,
     setSpiderWomanTotal,
+    setSpiderWomanTotalValue,
     setSpiderWomanOwn,
+    setSpiderWomanOwnValue,
     setSuperLife,
+    setSuperLifeValue,
     setSuperPlan,
+    setSuperPlanValue,
   ]);
 
   return {
     spiderWomanTotal,
+    spiderWomanTotalValue,
     spiderWomanOwn,
+    spiderWomanOwnValue,
     superLife,
+    superLifeValue,
     superPlan,
+    superPlanValue,
     changeSpiderWoman,
     changeSuperLife,
     changeSuperPlan,

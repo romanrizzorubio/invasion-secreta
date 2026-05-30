@@ -45,19 +45,19 @@ describe('ShipFallPhase', () => {
     expect(screen.getByText('Panel: 6')).toBeInTheDocument();
   });
 
-  it('should render Colocar contador button when not readonly', () => {
+  it('should render Quitar contador button when not readonly', () => {
     renderWithTheme(<ShipFallPhase readOnly={false} />);
-    expect(screen.getByText('Colocar contador')).toBeInTheDocument();
+    expect(screen.getByText('Quitar contador')).toBeInTheDocument();
   });
 
-  it('should not render Colocar contador button when readonly', () => {
+  it('should not render Quitar contador button when readonly', () => {
     renderWithTheme(<ShipFallPhase readOnly={true} />);
-    expect(screen.queryByText('Colocar contador')).not.toBeInTheDocument();
+    expect(screen.queryByText('Quitar contador')).not.toBeInTheDocument();
   });
 
   it('should call addShipCounter when button is clicked', () => {
     renderWithTheme(<ShipFallPhase readOnly={false} />);
-    const button = screen.getByText('Colocar contador');
+    const button = screen.getByText('Quitar contador');
     fireEvent.click(button);
     expect(mockAddShipCounter).toHaveBeenCalledTimes(1);
   });

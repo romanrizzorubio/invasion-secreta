@@ -149,7 +149,11 @@ describe('useInit', () => {
       result.current.changeEnd(newDate);
     });
 
-    expect(mockSetData).toHaveBeenCalledWith({
+    expect(mockSetData).toHaveBeenCalledWith(expect.any(Function));
+    const updater = mockSetData.mock.calls[0][0];
+    const prevData = { some: 'data' };
+    expect(updater(prevData)).toEqual({
+      ...prevData,
       end: newDate,
     });
   });
@@ -163,7 +167,11 @@ describe('useInit', () => {
       result.current.changeEnd(dateString);
     });
 
-    expect(mockSetData).toHaveBeenCalledWith({
+    expect(mockSetData).toHaveBeenCalledWith(expect.any(Function));
+    const updater = mockSetData.mock.calls[0][0];
+    const prevData = { some: 'data' };
+    expect(updater(prevData)).toEqual({
+      ...prevData,
       end: new Date(dateString),
     });
   });

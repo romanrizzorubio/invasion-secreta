@@ -5,7 +5,9 @@ import type { GameData } from "../types/GameData";
 
 export function endGame(): GameData {
   const state = updateGameState((data) => {
-    data.phase = PhaseDict.VERANKE_WIN;
+    if (data.phase < PhaseDict.OSBORN_REVEAL) {
+      data.phase = PhaseDict.OSBORN_REVEAL;
+    }
   });
 
   broadcastGame();
