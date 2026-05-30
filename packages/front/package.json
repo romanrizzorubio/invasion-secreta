@@ -13,6 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "npm run start",
     "build": "react-scripts build",
     "test": "jest --watchAll=false",
     "test:watch": "jest --watch",

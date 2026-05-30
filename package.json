@@ -6,9 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
+    "dev": "concurrently \"npm:dev:back\" \"npm:dev:front\"",
     "build": "npm run build --workspaces --if-present",
-    "start": "concurrently \"npm:start:back\" \"npm:start:front\"",
+    "start": "concurrently \"npm:dev:back\" \"npm:dev:front\"",
     "test": "npm run test --workspaces --if-present",
     "test:unit": "npm run test:unit --workspaces --if-present",
     "test:integration": "npm run test:integration --workspaces --if-present",
@@ -21,7 +21,7 @@
     "lint:fix": "npm run lint:fix --workspaces --if-present && prettier --write .",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev:back": "npm run dev --workspace=packages/back",
-    "dev:front": "npm run start --workspace=packages/front",
+    "dev:front": "npm run dev --workspace=packages/front",
     "build:back": "npm run build --workspace=packages/back",
     "build:front": "npm run build --workspace=packages/front",
     "start:back": "npm run start --workspace=packages/back",
